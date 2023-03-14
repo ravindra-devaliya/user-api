@@ -4,6 +4,7 @@ from django.contrib.admin import register
 from app.models import Post
 from app.models import Author
 from app.models import Book
+from django.utils.html import format_html
 
 
 @register(Post)
@@ -23,9 +24,16 @@ class BookAdmin(ModelAdmin):
         "author",
         "publication",
         "rating",
-        "image",
+        "image_view",
         "description",
     ]
+
+    def image_view(self, obj):
+        if obj.image:
+            return format_html(
+                f'<img src="{obj.image.url}" width="auto" height="70px" />'
+            )
+        return ""
 
 
 @register(Author)
@@ -35,6 +43,15 @@ class AuthorAdmin(ModelAdmin):
         "date_of_birth",
         "nationality",
         "details",
-        "image",
+        "image_view",
     ]
     inlines = [BookInline]
+
+    def image_view(self, obj):
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="auto" height="70px" />'.format(obj.image.url)
+            )
+        return ""
+
+    image_view.short_description = "image"
