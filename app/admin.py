@@ -24,8 +24,8 @@ class BookAdmin(ModelAdmin):
         "author",
         "publication",
         "rating",
-        "image_view",
         "description",
+        "image_view",
     ]
 
     def image_view(self, obj):
@@ -34,6 +34,8 @@ class BookAdmin(ModelAdmin):
                 f'<img src="{obj.image.url}" width="auto" height="70px" />'
             )
         return ""
+
+    image_view.short_description = "image"
 
 
 @register(Author)
